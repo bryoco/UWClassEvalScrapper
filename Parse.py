@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 def parse_class(document):
     soup = BeautifulSoup(document, features="html.parser")
-    h1: str = soup.find("h1").contents[0].strip()
+    h1: str = soup.find("h1").contents[0]
     h2 = filter_nonprintable(soup.find("h2").contents[0]).split()
     caption = soup.find("caption").contents[0].split()
     table_row = soup.find_all("tr")
@@ -12,8 +12,8 @@ def parse_class(document):
     class_name = h1
     lecturer_name = h2[0] + " " + h2[1]
     quarter = h2[-1]
-    surveyed = caption[-4]
-    enrolled = caption[-2]
+    surveyed = int(float(caption[-4].replace('"', '')))
+    enrolled = int(float(caption[-2].replace('"', '')))
     statistics = {}
 
     for tr in table_row:
@@ -21,13 +21,13 @@ def parse_class(document):
         contents = tr.contents
         lst = []
         for content in contents:
-            lst.append(content.text)
+            lst.append(content.text.strip().replace(':', ''))
 
         statistics[lst.pop(0)] = lst
 
-    class_result = {"class": class_name,
-                    "lecturer": lecturer_name,
-                    "quarter": quarter,
+    class_result = {"class": class_name.strip(),
+                    "lecturer": lecturer_name.strip(),
+                    "quarter": quarter.strip(),
                     "surveyed": surveyed,
                     "enrolled": enrolled,
                     "statistics": statistics}
