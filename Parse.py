@@ -17,7 +17,6 @@ def parse_class(document):
     statistics = {}
 
     for tr in table_row:
-        # BeautifulSoup(tr, features="html.parser")
         contents = tr.contents
         lst = []
         for content in contents:
@@ -31,6 +30,7 @@ def parse_class(document):
                     "surveyed": surveyed,
                     "enrolled": enrolled,
                     "statistics": statistics}
+
     print(class_result)
     return class_result
 

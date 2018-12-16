@@ -1,0 +1,2 @@
+username = "yourUWNetID"
+password = "yourPassword"
